@@ -21,9 +21,7 @@ jobs:
         go-version: 1.18
 
     - name: Build
-      working-directory: src
       run: go build -v ./...
 
     - name: Test
-      working-directory: src
       run: go test -v ./...
