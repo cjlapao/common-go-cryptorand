@@ -1,0 +1,46 @@
+name: CI Release
+
+on:
+  push:
+    branches: [ main ]
+    
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        language: [ 'go' ]
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        ref: ${{ github.head_ref }}
+    - name: Set up Go
+      uses: actions/setup-go@v2
+      with:
+        go-version: 1.18
+    - name: Bump version and push tag
+      id: tag_version
+      uses: mathieudutour/github-tag-action@v5.4
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+    - shell: bash
+      name: Create tag file
+      run: |
+        echo ${{ steps.tag_version.outputs.new_tag }} > tag.txt
+        echo ${{ steps.tag_version.outputs.changelog }} > tag_changelog.txt
+    - name: Upload tag version
+      uses: actions/upload-artifact@v1
+      with:
+        name: tag_version
+        path: ./tag.txt
+    - name: Upload tag changelog
+      uses: actions/upload-artifact@v1
+      with:
+        name: tag_changelog
+        path: ./tag_changelog.txt
+    - name: Removing tag files
+      run: |
+        rm tag.txt
+        rm tag_changelog.txt
