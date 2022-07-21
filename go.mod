@@ -1,4 +1,4 @@
-module cjlapao/common-go-cryptorand
+module github.com/cjlapao/common-go-cryptorand
 
 go 1.18
 
