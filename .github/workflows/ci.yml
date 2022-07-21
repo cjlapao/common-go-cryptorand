@@ -25,22 +25,14 @@ jobs:
       uses: mathieudutour/github-tag-action@v5.4
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-    - shell: bash
-      name: Create tag file
-      run: |
-        echo ${{ steps.tag_version.outputs.new_tag }} > tag.txt
-        echo ${{ steps.tag_version.outputs.changelog }} > tag_changelog.txt
-    - name: Upload tag version
-      uses: actions/upload-artifact@v1
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        name: tag_version
-        path: ./tag.txt
-    - name: Upload tag changelog
-      uses: actions/upload-artifact@v1
-      with:
-        name: tag_changelog
-        path: ./tag_changelog.txt
-    - name: Removing tag files
-      run: |
-        rm tag.txt
-        rm tag_changelog.txt
+        tag_name: ${{ steps.tag_version.outputs.new_tag }}
+        release_name: Release ${{ steps.tag_version.outputs.new_tag }}
+        body: ${{ steps.tag_version.outputs.changelog }}
+        draft: false
+        prerelease: false
