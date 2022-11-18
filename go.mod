@@ -1,9 +1,9 @@
 module github.com/cjlapao/common-go-cryptorand
 
-go 1.18
+go 1.19
 
 require (
-	github.com/cjlapao/common-go v0.0.24
+	github.com/cjlapao/common-go v0.0.32
 	github.com/stretchr/testify v1.8.0
 )
 
