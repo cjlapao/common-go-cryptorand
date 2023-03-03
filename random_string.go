@@ -1,7 +1,5 @@
 package cryptorand
 
-import "github.com/cjlapao/common-go/constants"
-
 func GetAlphaNumericRandomString(size int) string {
 	return randomString(size, true, true, true)
 }
@@ -27,15 +25,15 @@ func randomString(size int, includeLowerCase bool, includeUpperCase bool, includ
 	result := ""
 
 	if includeLowerCase {
-		source = append(source, constants.LowerCaseAlphaCharacters()...)
+		source = append(source, LowerCaseAlphaCharacters()...)
 	}
 
 	if includeUpperCase {
-		source = append(source, constants.UpperCaseAlphaCharacters()...)
+		source = append(source, UpperCaseAlphaCharacters()...)
 	}
 
 	if includeNumeric {
-		source = append(source, constants.NumericCharacters()...)
+		source = append(source, NumericCharacters()...)
 	}
 	if len(source) > 0 {
 		random := Rand()
