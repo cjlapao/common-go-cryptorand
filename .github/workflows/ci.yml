@@ -2,37 +2,77 @@ name: CI Release
 
 on:
   push:
-    branches: [ main ]
-    
+    branches: 
+      - main
+    paths:
+      - version.json
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Version to release"
+        required: true
+
 jobs:
-  build:
-    name: Build
+  check-version-change:
+    outputs:
+      changed: ${{ steps.check-version.outputs.result }}
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        language: [ 'go' ]
+    permissions:
+      contents: read
     steps:
-    - uses: actions/checkout@v2
-      with:
-        ref: ${{ github.head_ref }}
-    - name: Set up Go
-      uses: actions/setup-go@v2
-      with:
-        go-version: 1.18
-    - name: Bump version and push tag
-      id: tag_version
-      uses: mathieudutour/github-tag-action@v5.4
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-    - name: Create Release
-      id: create_release
-      uses: actions/create-release@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        tag_name: ${{ steps.tag_version.outputs.new_tag }}
-        release_name: Release ${{ steps.tag_version.outputs.new_tag }}
-        body: ${{ steps.tag_version.outputs.changelog }}
-        draft: false
-        prerelease: false
+      - uses: actions/checkout@v3
+      - name: Check if version has changed
+        id: check-version
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const version = '${{ github.event.inputs.version }}' || require('./version.json').version;
+            // Find a release for that version
+            const release = await github.rest.repos.getReleaseByTag({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              tag: `release-v${version}`,
+            }).catch(() => null);
+
+            // If the release exists, the version has not changed
+            if (release) {
+              console.log(`Version ${version} has an existing release`);
+              console.log(release.data.html_url);
+              core.summary.addLink(`Release v${version}`, release.data.html_url);
+              await core.summary.write();
+              return "false";
+            }
+            console.log(`Version ${version} does not have a release`);
+            return true;
+  release:
+    needs: check-version-change
+    if: ${{ needs.check-version-change.outputs.changed == 'true' }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      packages: read
+    env:
+      EXT_VERSION: "" # will be set in the workflow
+    outputs:
+      version: ${{ env.EXT_VERSION }}
+    steps:
+      - uses: actions/checkout@v3
+      - name: Parse version from package.json
+        run: |
+          echo "EXT_VERSION=$(node -p -e "require('./version.json').version")" >> $GITHUB_ENV
+      - name: Create release and upload release asset
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const fs = require("fs");
+            const release = await github.rest.repos.createRelease({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              tag_name: "release-v${{ env.EXT_VERSION }}",
+              name: "v${{ env.EXT_VERSION }}",
+              draft: false,
+              prerelease: false
+            });
+
+            core.summary.addLink(`Release v${{ env.EXT_VERSION }}`, release.data.html_url);
+            await core.summary.write();
