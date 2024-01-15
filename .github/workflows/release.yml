@@ -45,6 +45,7 @@ jobs:
       - name: Make Coverage Badge
         uses: action-badges/cobertura-coverage-xml-badges@0.3.0
         with:
+          file-name: ./badges/cobertura.svg
           coverage-file-name: ./cobertura-coverage.xml
       - name: Bump version and push
         run: |
