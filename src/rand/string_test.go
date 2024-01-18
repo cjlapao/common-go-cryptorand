@@ -1,4 +1,4 @@
-package rand
+package rand_test
 
 import (
 	"testing"
