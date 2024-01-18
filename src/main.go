@@ -1,50 +1,54 @@
 package cryptorand
 
-import "math/rand"
+import (
+	"crypto/rand"
+	"math/big"
+
+	"github.com/cjlapao/common-go-cryptorand/constants"
+	cRand "github.com/cjlapao/common-go-cryptorand/rand"
+)
 
 type CryptoRand struct {
-	Rand *rand.Rand
 }
 
 func New() *CryptoRand {
-	rand := Rand()
-	return &CryptoRand{
-		Rand: rand,
-	}
+	return &CryptoRand{}
 }
 
-func Rand() *rand.Rand {
-	var src CryptoSource
-	generator := rand.New(src)
-	return generator
+func (c *CryptoRand) Int() (int, error) {
+	val, err := rand.Int(rand.Reader, big.NewInt(int64(len(constants.NumericCharacters()))))
+	if err != nil {
+		return 0, err
+	}
+	return int(val.Int64()), nil
 }
 
 func (c *CryptoRand) GetRandomNumber(min, max int) (int, error) {
-	return GetRandomNumber(min, max)
+	return cRand.GetRandomNumber(min, max)
 }
 
 func (c *CryptoRand) GetAlphaNumericRandomString(size int) (string, error) {
-	source := AlphaNumericCharacters()
+	source := constants.AlphaNumericCharacters()
 
 	return c.getRandomFromArray(size, source)
 }
 
 func (c *CryptoRand) GetRandomString(size int) (string, error) {
-	source := AlphaCharacters()
+	source := constants.AlphaCharacters()
 
 	return c.getRandomFromArray(size, source)
 }
 
 func (c *CryptoRand) GetUpperCaseRandomString(size int) (string, error) {
 	source := make([]string, 0)
-	source = append(source, UpperCaseAlphaCharacters()...)
+	source = append(source, constants.UpperCaseAlphaCharacters()...)
 
 	return c.getRandomFromArray(size, source)
 }
 
 func (c *CryptoRand) GetLowerCaseRandomString(size int) (string, error) {
 	source := make([]string, 0)
-	source = append(source, LowerCaseAlphaCharacters()...)
+	source = append(source, constants.LowerCaseAlphaCharacters()...)
 
 	return c.getRandomFromArray(size, source)
 }
@@ -52,10 +56,13 @@ func (c *CryptoRand) GetLowerCaseRandomString(size int) (string, error) {
 func (c *CryptoRand) getRandomFromArray(size int, source []string) (string, error) {
 	result := ""
 	if len(source) > 0 {
-		random := Rand()
+		random, err := rand.Int(rand.Reader, big.NewInt(int64(len(source))))
+		if err != nil {
+			return "", err
+		}
 		if size > 0 {
 			for i := 0; i < size; i++ {
-				idx := random.Intn(len(source))
+				idx := random.Int64()
 				result += source[idx]
 			}
 		}

@@ -1,19 +1,40 @@
 #!/bin/bash
 
-VERSION=$(cat version.json | jq -r '.version')
+#!/bin/bash
 
-MAJOR=$(echo $VERSION | cut -d. -f1)
-MINOR=$(echo $VERSION | cut -d. -f2)
-PATCH=$(echo $VERSION | cut -d. -f3)
+while getopts ":t:f:" opt; do
+  case $opt in
+  t)
+    TYPE=$OPTARG
+    ;;
+  f)
+    FILE=$OPTARG
+    ;;
+  \?)
+    echo "Invalid option: -$OPTARG" >&2
+    exit 1
+    ;;
+  esac
+done
 
-if [ "$1" == "major" ]; then
+if [ -z "$FILE" ]; then
+  echo "You need to specify the version file with the -f flag"
+fi
+
+VERSION=$(jq -r '.version' <"$FILE")
+
+MAJOR=$(echo "$VERSION" | cut -d. -f1)
+MINOR=$(echo "$VERSION" | cut -d. -f2)
+PATCH=$(echo "$VERSION" | cut -d. -f3)
+
+if [ "$TYPE" == "major" ]; then
   MAJOR=$((MAJOR + 1))
   MINOR=0
   PATCH=0
-elif [ "$1" == "minor" ]; then
+elif [ "$TYPE" == "minor" ]; then
   MINOR=$((MINOR + 1))
   PATCH=0
-elif [ "$1" == "patch" ]; then
+elif [ "$TYPE" == "patch" ]; then
   PATCH=$((PATCH + 1))
 else
   echo "Invalid version type. Use 'major', 'minor' or 'patch'"
@@ -21,4 +42,4 @@ else
 fi
 
 NEW_VERSION="$MAJOR.$MINOR.$PATCH"
-echo $NEW_VERSION
+echo "$NEW_VERSION"

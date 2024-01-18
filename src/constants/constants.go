@@ -1,10 +1,10 @@
-package cryptorand
+package constants
 
 const (
-	DEBUG_ENVIRONMENT = "CJ_ENABLE_DEBUG"
-	TRACE_ENVIRONMENT = "CJ_ENABLE_TRACE"
-	ENVIRONMENT       = "CJ_ENVIRONMENT"
-	ID_SIZE           = 45
+	DebugEnvironment = "CJ_ENABLE_DEBUG"
+	TraceEnvironment = "CJ_ENABLE_TRACE"
+	Environment      = "CJ_ENVIRONMENT"
+	IDSize           = 45
 )
 
 func AlphaCharacters() []string {
