@@ -48,7 +48,7 @@ func randomString(size int, includeLowerCase bool, includeUpperCase bool, includ
 				if err != nil {
 					return "", err
 				}
-				result[i] = byte(source[idx.Int64()][0])
+				result[i] = source[idx.Int64()][0]
 			}
 		}
 	}

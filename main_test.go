@@ -8,25 +8,18 @@ import (
 
 func TestRandomInt(t *testing.T) {
 	// Arrange
-	random := Rand()
+	random := New()
 
 	// Act
-	result := random.Int()
-	nextResult := random.Int()
+	result, err := random.Int()
+	nextResult, nextErr := random.Int()
 
+	// Assert
+	assert.NoError(t, err, "Error should be nil")
+	assert.NoError(t, nextErr, "Error should be nil")
 	assert.NotEqualf(t, nextResult, result, "The numbers should not be equal in the next run")
 }
 
-func TestNewCryptoRand(t *testing.T) {
-	// Arrange
-	r := New()
-
-	//act
-	result := r.Rand.Int()
-	nextResult := r.Rand.Int()
-
-	assert.NotEqualf(t, nextResult, result, "The numbers should not be equal in the next run")
-}
 func TestCryptoRand_GetAlphaNumericRandomString(t *testing.T) {
 	// Arrange
 	c := New()
