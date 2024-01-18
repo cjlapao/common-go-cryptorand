@@ -1,15 +1,16 @@
-package cryptorand
+package rand
 
 import (
 	"testing"
 
+	"github.com/cjlapao/common-go-cryptorand/rand"
 	"github.com/stretchr/testify/assert"
 )
 
 func TestGenerateAlphaNumericRandomString(t *testing.T) {
 	// Arrange + Act
-	result1, err1 := GetAlphaNumericRandomString(5)
-	result2, err2 := GetAlphaNumericRandomString(5)
+	result1, err1 := rand.GetAlphaNumericRandomString(5)
+	result2, err2 := rand.GetAlphaNumericRandomString(5)
 
 	// Assert
 	assert.NoErrorf(t, err1, "Error should be nil")
@@ -21,8 +22,8 @@ func TestGenerateAlphaNumericRandomString(t *testing.T) {
 
 func TestGenerateRandomString(t *testing.T) {
 	// Arrange + Act
-	result1, err1 := GetRandomString(15)
-	result2, err2 := GetRandomString(15)
+	result1, err1 := rand.GetRandomString(15)
+	result2, err2 := rand.GetRandomString(15)
 
 	// Assert
 	assert.NoErrorf(t, err1, "Error should be nil")
@@ -34,8 +35,8 @@ func TestGenerateRandomString(t *testing.T) {
 
 func TestGenerateUpperCaseRandomString(t *testing.T) {
 	// Arrange + Act
-	result1, err1 := GetUpperCaseRandomString(7)
-	result2, err2 := GetUpperCaseRandomString(7)
+	result1, err1 := rand.GetUpperCaseRandomString(7)
+	result2, err2 := rand.GetUpperCaseRandomString(7)
 
 	// Assert
 	assert.NoErrorf(t, err1, "Error should be nil")
@@ -47,8 +48,8 @@ func TestGenerateUpperCaseRandomString(t *testing.T) {
 
 func TestGenerateLowerCaseRandomString(t *testing.T) {
 	// Arrange + Act
-	result1, err1 := GetLowerCaseRandomString(7)
-	result2, err2 := GetLowerCaseRandomString(7)
+	result1, err1 := rand.GetLowerCaseRandomString(7)
+	result2, err2 := rand.GetLowerCaseRandomString(7)
 
 	// Assert
 	assert.NoErrorf(t, err1, "Error should be nil")
@@ -60,8 +61,8 @@ func TestGenerateLowerCaseRandomString(t *testing.T) {
 
 func TestGenerateNumericRandomString(t *testing.T) {
 	// Arrange + Act
-	result1, err1 := GetNumericRandomString(7)
-	result2, err2 := GetNumericRandomString(7)
+	result1, err1 := rand.GetNumericRandomString(7)
+	result2, err2 := rand.GetNumericRandomString(7)
 
 	// Assert
 	assert.NoErrorf(t, err1, "Error should be nil")

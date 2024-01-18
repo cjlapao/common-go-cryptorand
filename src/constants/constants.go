@@ -1,4 +1,4 @@
-package cryptorand
+package constants
 
 const (
 	DebugEnvironment = "CJ_ENABLE_DEBUG"

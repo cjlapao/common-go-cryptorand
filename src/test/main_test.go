@@ -1,14 +1,16 @@
-package cryptorand
+package cryptorand_test
 
 import (
 	"testing"
 
+	cryptorand "github.com/cjlapao/common-go-cryptorand"
+	"github.com/cjlapao/common-go-cryptorand/constants"
 	"github.com/stretchr/testify/assert"
 )
 
 func TestRandomInt(t *testing.T) {
 	// Arrange
-	random := New()
+	random := cryptorand.New()
 
 	// Act
 	result, err := random.Int()
@@ -22,7 +24,7 @@ func TestRandomInt(t *testing.T) {
 
 func TestCryptoRand_GetAlphaNumericRandomString(t *testing.T) {
 	// Arrange
-	c := New()
+	c := cryptorand.New()
 	size := 10
 
 	// Act
@@ -33,15 +35,15 @@ func TestCryptoRand_GetAlphaNumericRandomString(t *testing.T) {
 	assert.Equal(t, size, len(result), "Result length should be equal to size")
 	for _, char := range result {
 		source := make([]string, 0)
-		source = append(source, LowerCaseAlphaCharacters()...)
-		source = append(source, UpperCaseAlphaCharacters()...)
-		source = append(source, NumericCharacters()...)
+		source = append(source, constants.LowerCaseAlphaCharacters()...)
+		source = append(source, constants.UpperCaseAlphaCharacters()...)
+		source = append(source, constants.NumericCharacters()...)
 		assert.Contains(t, source, string(char), "Result should contain only alphanumeric characters")
 	}
 }
 func TestCryptoRand_GetRandomNumber(t *testing.T) {
 	// Arrange
-	c := New()
+	c := cryptorand.New()
 	min := 0
 	max := 100
 
@@ -56,7 +58,7 @@ func TestCryptoRand_GetRandomNumber(t *testing.T) {
 
 func TestCryptoRand_GetRandomString(t *testing.T) {
 	// Arrange
-	c := New()
+	c := cryptorand.New()
 	size := 10
 
 	// Act
@@ -67,14 +69,14 @@ func TestCryptoRand_GetRandomString(t *testing.T) {
 	assert.Equal(t, size, len(result), "Result length should be equal to size")
 	for _, char := range result {
 		source := make([]string, 0)
-		source = append(source, LowerCaseAlphaCharacters()...)
-		source = append(source, UpperCaseAlphaCharacters()...)
+		source = append(source, constants.LowerCaseAlphaCharacters()...)
+		source = append(source, constants.UpperCaseAlphaCharacters()...)
 		assert.Contains(t, source, string(char), "Result should contain only alphanumeric characters")
 	}
 }
 func TestCryptoRand_GetUpperCaseRandomString(t *testing.T) {
 	// Arrange
-	c := New()
+	c := cryptorand.New()
 	size := 10
 
 	// Act
@@ -84,12 +86,12 @@ func TestCryptoRand_GetUpperCaseRandomString(t *testing.T) {
 	assert.NoError(t, err, "Error should be nil")
 	assert.Equal(t, size, len(result), "Result length should be equal to size")
 	for _, char := range result {
-		assert.Contains(t, UpperCaseAlphaCharacters(), string(char), "Result should contain only uppercase alphabetic characters")
+		assert.Contains(t, constants.UpperCaseAlphaCharacters(), string(char), "Result should contain only uppercase alphabetic characters")
 	}
 }
 func TestCryptoRand_GetLowerCaseRandomString(t *testing.T) {
 	// Arrange
-	c := New()
+	c := cryptorand.New()
 	size := 10
 
 	// Act
@@ -99,6 +101,6 @@ func TestCryptoRand_GetLowerCaseRandomString(t *testing.T) {
 	assert.NoError(t, err, "Error should be nil")
 	assert.Equal(t, size, len(result), "Result length should be equal to size")
 	for _, char := range result {
-		assert.Contains(t, LowerCaseAlphaCharacters(), string(char), "Result should contain only lowercase alphabetic characters")
+		assert.Contains(t, constants.LowerCaseAlphaCharacters(), string(char), "Result should contain only lowercase alphabetic characters")
 	}
 }

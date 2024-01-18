@@ -1,9 +1,11 @@
-package cryptorand
+package rand
 
 import (
 	"crypto/rand"
 	"math/big"
 	"strings"
+
+	"github.com/cjlapao/common-go-cryptorand/constants"
 )
 
 func GetAlphaNumericRandomString(size int) (string, error) {
@@ -31,15 +33,15 @@ func randomString(size int, includeLowerCase bool, includeUpperCase bool, includ
 	result := make(([]byte), size)
 
 	if includeLowerCase {
-		source = append(source, LowerCaseAlphaCharacters()...)
+		source = append(source, constants.LowerCaseAlphaCharacters()...)
 	}
 
 	if includeUpperCase {
-		source = append(source, UpperCaseAlphaCharacters()...)
+		source = append(source, constants.UpperCaseAlphaCharacters()...)
 	}
 
 	if includeNumeric {
-		source = append(source, NumericCharacters()...)
+		source = append(source, constants.NumericCharacters()...)
 	}
 	if len(source) > 0 {
 		if size > 0 {
