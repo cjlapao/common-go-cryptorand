@@ -33,6 +33,7 @@ jobs:
         with:
           go-version: '1.21.x'
           cache-dependency-path: ${{ github.workspace }}/src/go.sum
+
       - name: Test
         working-directory: ${{ github.workspace }}/src
         run: |
@@ -41,13 +42,15 @@ jobs:
           go install github.com/matm/gocov-html/cmd/gocov-html@latest
 
           go test -coverprofile coverage.txt -covermode count -v ./...
-          gocov convert coverage.txt | gocov-xml > cobertura-coverage.xml
+          gocov convert coverage.txt | gocov-xml > ../cobertura-coverage.xml
+
       - name: Make Coverage Badge
         uses: cjlapao/simple-badge-generator-action@v1.0.0
         with:
           title: Code Coverage
           badge-path: ./badges/coverage.svg
-          cobertura-path: ./src/cobertura-coverage.xml
+          badge-icon: ""
+          cobertura-path: cobertura-coverage.xml
       - name: Bump version and push
         run: |
           git config --global user.email "cjlapao@gmail.com"
