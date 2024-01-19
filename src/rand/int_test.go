@@ -1,16 +1,15 @@
-package rand_test
+package rand
 
 import (
 	"testing"
 
-	"github.com/cjlapao/common-go-cryptorand/rand"
 	"github.com/stretchr/testify/assert"
 )
 
 func TestGetRandomNumber(t *testing.T) {
 	// Arrange + Act
-	result, err1 := rand.GetRandomNumber(5, 100)
-	nextResult, err2 := rand.GetRandomNumber(5, 100)
+	result, err1 := GetRandomNumber(5, 100)
+	nextResult, err2 := GetRandomNumber(5, 100)
 
 	// Assert
 	assert.NoErrorf(t, err1, "Error should be nil")
