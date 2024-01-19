@@ -1,16 +1,15 @@
-package cryptorand_test
+package cryptorand
 
 import (
 	"testing"
 
-	cryptorand "github.com/cjlapao/common-go-cryptorand"
 	"github.com/cjlapao/common-go-cryptorand/constants"
 	"github.com/stretchr/testify/assert"
 )
 
 func TestRandomInt(t *testing.T) {
 	// Arrange
-	random := cryptorand.New()
+	random := New()
 
 	// Act
 	result, err := random.Int()
@@ -24,7 +23,7 @@ func TestRandomInt(t *testing.T) {
 
 func TestCryptoRand_GetAlphaNumericRandomString(t *testing.T) {
 	// Arrange
-	c := cryptorand.New()
+	c := New()
 	size := 10
 
 	// Act
@@ -43,7 +42,7 @@ func TestCryptoRand_GetAlphaNumericRandomString(t *testing.T) {
 }
 func TestCryptoRand_GetRandomNumber(t *testing.T) {
 	// Arrange
-	c := cryptorand.New()
+	c := New()
 	min := 0
 	max := 100
 
@@ -58,7 +57,7 @@ func TestCryptoRand_GetRandomNumber(t *testing.T) {
 
 func TestCryptoRand_GetRandomString(t *testing.T) {
 	// Arrange
-	c := cryptorand.New()
+	c := New()
 	size := 10
 
 	// Act
@@ -76,7 +75,7 @@ func TestCryptoRand_GetRandomString(t *testing.T) {
 }
 func TestCryptoRand_GetUpperCaseRandomString(t *testing.T) {
 	// Arrange
-	c := cryptorand.New()
+	c := New()
 	size := 10
 
 	// Act
@@ -91,7 +90,7 @@ func TestCryptoRand_GetUpperCaseRandomString(t *testing.T) {
 }
 func TestCryptoRand_GetLowerCaseRandomString(t *testing.T) {
 	// Arrange
-	c := cryptorand.New()
+	c := New()
 	size := 10
 
 	// Act

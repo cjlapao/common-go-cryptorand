@@ -5,7 +5,7 @@ on:
     branches: 
       - main
     paths:
-      - version.json
+      - VERSION
   workflow_dispatch:
     inputs:
       version:
@@ -26,7 +26,26 @@ jobs:
         uses: actions/github-script@v6
         with:
           script: |
-            const version = '${{ github.event.inputs.version }}' || require('./version.json').version;
+            // Get the version from the workflow input
+            let version = '${{ github.event.inputs.version }}';
+            if (!version) {
+              fs = require('fs');
+              let v = '';
+              try {
+                v = fs.readFileSync('./VERSION', 'utf8');
+                console.log(`Version found: ${v}`);
+              }
+              catch (err) {
+                return false;
+              }
+          
+              if (!v) {
+                return false;
+              } else {
+                version = v;
+              }
+            }
+
             // Find a release for that version
             const release = await github.rest.repos.getReleaseByTag({
               owner: context.repo.owner,
@@ -57,9 +76,9 @@ jobs:
       version: ${{ env.EXT_VERSION }}
     steps:
       - uses: actions/checkout@v3
-      - name: Parse version from package.json
+      - name: Parse version from VERSION file
         run: |
-          echo "EXT_VERSION=$(node -p -e "require('./version.json').version")" >> "$GITHUB_ENV"
+          echo "EXT_VERSION=$(cat ./VERSION)" >> "$GITHUB_ENV"
       - name: Create release and upload release asset
         uses: actions/github-script@v6
         with:

@@ -30,7 +30,7 @@ func GetNumericRandomString(size int) (string, error) {
 
 func randomString(size int, includeLowerCase bool, includeUpperCase bool, includeNumeric bool) (string, error) {
 	source := make([]string, 0)
-	result := make(([]byte), size)
+	result := make([]byte, size)
 
 	if includeLowerCase {
 		source = append(source, constants.LowerCaseAlphaCharacters()...)
