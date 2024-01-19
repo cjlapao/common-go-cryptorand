@@ -21,7 +21,7 @@ if [ -z "$FILE" ]; then
   echo "You need to specify the version file with the -f flag"
 fi
 
-VERSION=$(jq -r '.version' <"$FILE")
+VERSION=$(cat "$FILE")
 
 MAJOR=$(echo "$VERSION" | cut -d. -f1)
 MINOR=$(echo "$VERSION" | cut -d. -f2)

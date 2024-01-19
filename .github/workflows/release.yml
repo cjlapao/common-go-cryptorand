@@ -52,18 +52,19 @@ jobs:
           badge-path: ./badges/coverage.svg
           badge-icon: ""
           cobertura-path: ./cobertura-coverage.xml
+
       - name: Bump version and push
         run: |
           git config --global user.email "cjlapao@gmail.com"
           git config --global user.name "cjlapao"
 
-          NEW_VERSION=$(./scripts/workflows/increment-version.sh -t ${{ inputs.version }} -f version.json)
-          jq --arg new_version "$NEW_VERSION" '.version = $new_version' version.json > "tmp.json" && mv "tmp.json" "version.json"
+          NEW_VERSION=$(./scripts/workflows/increment-version.sh -t ${{ inputs.version }} -f VERSION)
+          echo "$NEW_VERSION" >> ./VERSION
           
           git checkout -b release/"$NEW_VERSION"
 
-          git add version.json ./badges/*
-          git commit -m "Release extension version $NEW_VERSION"
+          git add VERSION ./badges/*
+          git commit -m "Release version $NEW_VERSION"
 
           git push --set-upstream origin release/"$NEW_VERSION"
 
@@ -72,7 +73,7 @@ jobs:
       - name: Create PR
         run: |
           LAST_PR=$(gh pr list --repo ${{ github.repository }} --limit 1 --state merged --search "Release version" --json number | jq -r '.[0].number')
-          ./scripts/workflows/generate-release-notes.sh "$LAST_PR" ${{ env.new_version }}
+          ./scripts/workflows/generate-release-notes.sh ${{ github.repository }} "$LAST_PR" ${{ env.new_version }}
           gh pr create \
             --title "Release version ${{ env.new_version }}" \
             --body-file releasenotes.md \
