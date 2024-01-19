@@ -8,6 +8,8 @@ Fixes # (issue)
 
 ## Type of change
 
+**Please delete options that are not relevant.**
+
 - [ ] Documentation Change
 - [ ] Bugfix (non-breaking change which fixes an issue)
 - [ ] New feature (non-breaking change which adds functionality)
