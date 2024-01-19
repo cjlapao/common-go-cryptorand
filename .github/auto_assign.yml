@@ -1,0 +1,7 @@
+addReviewers: true
+addAssignees: true
+reviewers:
+  - cjlapao
+skipKeywords:
+  - wip
+numberOfReviewers: 1
