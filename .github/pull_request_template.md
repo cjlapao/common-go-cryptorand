@@ -8,6 +8,8 @@ Fixes # (issue)
 
 ## Type of change
 
+**Please delete options that are not relevant.**
+
 - [ ] Documentation Change
 - [ ] Bugfix (non-breaking change which fixes an issue)
 - [ ] New feature (non-breaking change which adds functionality)
@@ -21,5 +23,5 @@ Fixes # (issue)
 - [ ] I have made corresponding changes to the documentation
 - [ ] My changes generate no new warnings
 - [ ] I have added and run tests (`make test`) that prove my fix is effective or that my feature works
-- [ ] I have checked for code coverage (`make coverage`) and the coverage did not decrease
-- [ ] I have checked the code linting (`make lint`) and the linting did not decrease
+- [ ] I have checked for code coverage (`make coverage`), and the coverage did not decrease
+- [ ] I have checked the code linting (`make lint`), and the linting did not decrease

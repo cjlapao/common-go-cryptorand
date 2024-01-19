@@ -25,3 +25,5 @@ GetRandomString()
 
 Those will directly use the crypto/rand to generate the random string while the
 `CryptoRand` will use the math/rand with the crypto/rand as seed.
+
+## Usage
