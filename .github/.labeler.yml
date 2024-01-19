@@ -1,0 +1,11 @@
+Triage:
+  - changed-files:
+      - any-glob-to-any-file: "*"
+Community Contribution:
+  - changed-files:
+      - any-glob-to-any-file: "*"
+Documentation:
+  - changed-files:
+      - any-glob-to-any-file:
+          - "README*"
+          - "docs/**"
